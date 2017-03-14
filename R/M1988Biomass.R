@@ -7,6 +7,9 @@
 ## The below ground biomass is the estimate of the fraction
 ## stump and roots minus the estimate of the fraction stump
 
+## I think the M1988 option uses the same functions as M1988.Rune
+## but with potentially varying parameters and standard errors calculated?
+
 biomass.M1988 <- function (fn = "M1988.Rune", tr, res, this.period) 
 {
   i.spru <- res$spp == "spruce"

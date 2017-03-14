@@ -7,19 +7,20 @@
 ################################
 ## START CALCULATING VARIABLES
 ################################
-prep.common.vars.sim <- function(tr = tr,
-                                 fl = fl, 
-                                 i.period = i.period,
-                                 this.period = this.period,
-                                 common.vars = common.vars, 
+prep.common.vars.sim <- function(tr,
+                                 fl, 
+                                 i.period,
+                                 this.period,
+                                 common.vars, 
                                  vars.required,
                                  period.length,...){
 
 
   if (length(common.vars) > 1) res <- common.vars else res <- list()
   others <- list(...)
+  DT <- s.age <- data.table()
   
-
+  
 ########################
   ## BASIC STUFF
 ########################
@@ -30,7 +31,8 @@ prep.common.vars.sim <- function(tr = tr,
   ## NA mean no trees in that plot
   res$i.tree <- match(fl$ustandID, tr$data$ustandID)
   res$tree.BA.m2 <- pi * (tr$data[["dbh.mm"]][, this.period]/1000/2)^2
-  
+ 
+
   ## SBA.m2.ha
   ## if (any(vars.required == "SBA.m2.ha")){ ## we will calculate SBA.m2.ha always
   ## since it is widely used. We will use this to calculate i.match.tapply which
@@ -153,20 +155,20 @@ prep.common.vars.sim <- function(tr = tr,
                                   dev.class  = res$dev.class[res$i.stand]
                                   )
       ## recalcualte stand.age.years based on tree data
-      
+      tree.BA.m2 <- ustandID <-
+                NULL ## this avoid note no visible binding for global variable
+
       DT <- data.table(tree.BA.m2 = res$tree.BA.m2,
-                       tree.age.years = tree.age.years,
+                       tree.age.year = tree.age.years,
                        ustandID = tr$data$ustandID
-                       ) ## +- 1 year
+                      ) ## +- 1 year
+      
       setkeyv(DT, 'ustandID')
-
-
+      
+      DT[, w := tree.BA.m2/sum(tree.BA.m2)]
       s.age <- DT[ ,
-                  list(wret =
-                         mean(tree.age.years),
-                       w = (tree.BA.m2 /sum(tree.BA.m2))
-                       )
-                , by = ustandID]
+                  list(wret = weighted.mean( tree.age.year, w  = w)),
+                  by = ustandID]
       
       
       ## in dev.class 1 there might not be trees so
@@ -210,13 +212,20 @@ prep.common.vars.sim <- function(tr = tr,
         SI.m            = fl$SI.m,
         stand.age.years = fl$stand.age.years[,this.period]
       )
-
-      stands.final.felling <- substr(fl$management[, this.period], 1, 1) != '0'
+      
+      if (all(is.na(fl$management[, this.period]))) {
+        stands.final.felling <- rep(FALSE, nrow(fl$management))
+      } else if (any(is.na(fl$management[, this.period]))){
+        stop ("Some of the management is NA and it should not. Check your code!")
+      } else {
+        stands.final.felling <- substr(fl$management[, this.period], 1, 1) != '0'
+      }  
+      
       res$dev.class[stands.final.felling] <- 1
 
 
       i.conif <- stands.final.felling & fl$SI.spp %in% c(1,2)
-      
+
       if (sum(i.conif) > 0){
         fl$stand.age.years[i.conif, this.period] <-
           -ventetid[match(fl$SI.m[i.conif], ventetid$bonitet), "granfuru"] +
@@ -570,4 +579,4 @@ prep.common.vars.sim <- function(tr = tr,
   invisible(list(res = res,
                  fl = fl))
 }
-## reassignInPackage("prep.common.vars.sim", "skogsimExtra", prep.common.vars.sim)
+## reassignInPackage("prep.common.vars.sim", "sitreeE", prep.common.vars.sim)

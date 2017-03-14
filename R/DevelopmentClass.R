@@ -20,6 +20,7 @@ development.class <- function(age.years, SI.spp, SI.m){
     ## create empty hosgtkl
     dev.class <- rep(11,length(SI.spp))
     
+SI.m[SI.m > 23] <- 23
     ## CONIF
     i.conif <- SI.spp %in% c(1,2)
     
@@ -29,7 +30,7 @@ development.class <- function(age.years, SI.spp, SI.m){
                                                 c( "class3", "class4", "class5" )]
   dev.class[i.conif][cc[,"class3"]] <- 31
   dev.class[i.conif][cc[,"class4"]] <- 41
-  dev.class[i.conif][cc[,"class4"]] <- 51
+  dev.class[i.conif][cc[,"class5"]] <- 51
     
     ## HARW
     i.harw <- ! i.conif
@@ -40,7 +41,7 @@ development.class <- function(age.years, SI.spp, SI.m){
                                                 c( "class3", "class4", "class5" )]
     dev.class[i.harw][cc[,"class3"]] <- 31
     dev.class[i.harw][cc[,"class4"]] <- 41
-    dev.class[i.harw][cc[,"class4"]] <- 51
+    dev.class[i.harw][cc[,"class5"]] <- 51
     
     return(dev.class)
 }

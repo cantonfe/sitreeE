@@ -1,37 +1,37 @@
  ## needed to run the models
-  ff <- function(
-                 mod2, 
-                 j2,
-                 alpha,
-                 waterbal){
-    my.waterbal <- ifelse(waterbal >= j2, waterbal - j2, 0)
-    mia <- my.waterbal/alpha
-    
-    return(
-      mod2/alpha *
+ff <- function(
+               mod2, 
+               j2,
+               alpha,
+               waterbal){
+  my.waterbal <- ifelse(waterbal >= j2, waterbal - j2, 0)
+  mia <- my.waterbal/alpha
+  
+  return(
+    mod2/alpha *
       mia ^ (mod2 - 1) *
-            exp(-mia ^ mod2)
-                   )
-  }
-  
-  my.f.si <- function(mod2,j2,alpha,waterbal){
-    my.max <-
-      optimize(
-        f        = ff,
-        mod2     = mod2,
-        j2       = j2, 
-        alpha    = alpha,
-        interval = c(min(waterbal), max(waterbal)),
-        maximum  = TRUE)
-    fnl <- (
-      1/my.max$objective * ff(mod2,
-                              j2,
-                              alpha,
-                              waterbal)
-    )
-    return(fnl)
-  }
-  
+      exp(-mia ^ mod2)
+  )
+}
+
+my.f.si <- function(mod2,j2,alpha,waterbal){
+  my.max <-
+    optimize(
+      f        = ff,
+      mod2     = mod2,
+      j2       = j2, 
+      alpha    = alpha,
+      interval = c(min(waterbal), max(waterbal)),
+      maximum  = TRUE)
+  fnl <- (
+    1/my.max$objective * ff(mod2,
+                            j2,
+                            alpha,
+                            waterbal)
+  )
+  return(fnl)
+}
+
 ext.modif.fun <- function(
                           tr,
                           fl,
@@ -201,4 +201,4 @@ ext.modif.fun <- function(
     } else stop ('clim.scenario no valid')
   }
 }
-## reassignInPackage("ext.modif.fun", "skogsimExtra", ext.modif.fun)
+## reassignInPackage("ext.modif.fun", "sitreeE", ext.modif.fun)

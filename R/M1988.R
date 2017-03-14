@@ -2,6 +2,8 @@
 ## biomass function      ##
 ## after Marklund (1988) ##
 ###########################
+## I think this is M1988 code with potentially varying coefficients and
+## with standard errors, so this is somehow a duplicate of M1988.Rune
 
 M1988 <- function(
    dbh.cm   ## diameter in cm
@@ -78,7 +80,7 @@ M1988 <- function(
   
   ## living branches including needles
   tmp <- living.branches.i +
-    living.branches.d * dbh.cm/(dbh.cm+living.branches.add) +
+    living.branches.d * dbh.cm/(dbh.cm + living.branches.add) +
     living.branches.h * height.m + living.branches.lh * log(height.m)
   ## standard error
   se <- se.living.branches <- living.branches.se* se.factor
