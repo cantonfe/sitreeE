@@ -2,12 +2,12 @@ Package: sitreeE
 Type: Package
 Title: sitree Extensions
 Version: 0.0-1
-Date: 2017-03-14
+Date: 2017-04-01
 Author: Clara Anton Fernandez
 Maintainer: Clara Anton Fernandez <caf@nibio.no>
 Description: Extra functions to work with sitree
 License: GPL-2 | GPL-3
-Depends: R (>= 3.1.0), data.table, methods, lattice, latticeExtra, sitree
+Depends: R (>= 3.1.0), sitree
 Encoding: latin2
 LazyLoad: yes
 LazyData: yes
