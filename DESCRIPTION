@@ -1,13 +1,14 @@
 Package: sitreeE
-Type: Package
-Title: sitree Extensions
 Version: 0.0-1
 Date: 2017-04-01
-Author: Clara Anton Fernandez
+Title: sitree Extensions
+Authors@R: c(person("Clara", "Anton Fernandez", role = c("aut", "cre"),
+		     email = "caf@nibio.no"))
+Author: Clara Anton Fernandez [aut, cre]
 Maintainer: Clara Anton Fernandez <caf@nibio.no>
-Description: Extra functions to work with sitree
-License: GPL-2 | GPL-3
 Depends: R (>= 3.1.0), sitree
-Encoding: latin2
+Description: sitree extensions.
+License: GPL (>= 2)
+Encoding: UTF-8
 LazyLoad: yes
 LazyData: yes
