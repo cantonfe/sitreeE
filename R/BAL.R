@@ -1,6 +1,7 @@
  
 
 PBAL <-  function(BA){
+
   ord.x <- order(BA)
   BAo <- sum(BA[ord.x]) - cumsum(BA[ord.x])
   ## ties

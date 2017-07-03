@@ -21,7 +21,6 @@ picea.abies.volV(dbh, trh, bark, units)
 pinus.sylvestris.vol(dbh, trh, bark, units)
 pinus.sylvestris.volV(dbh, trh, bark, units)
 sitka.vol(dbh, trh, bark, units)
-sitka.volV(dbh, trh, bark, units)
 harw.nor.vol(tsl, dbh, trh, bark, units)
 
 }
@@ -49,10 +48,10 @@ the calculations of diameter without bark.
 Returns tree volume in the selected units.
 }
 
-\References{
-Braastad, H. 1966. “Volumtabeller for bjørk [Volume tables for birch].” Meddelelser fra Det norske Skogforsøksvesen 21: 23–78.
-Brantseg, A. 1967. “Furu sønnafjells. Kubering av stående skog. Funksjoner og tabeller [Volume functions and tables for Scots pine. South Norway].” Meddelelser fra Det norske Skogforsøksvesen 22: 695–739.
-Vestjordet, E. 1967. “Funksjoner og tabeller for kubering av stående gran [Functions and tables for volume of standing trees. Norway spruce].” Meddelelser fra Det norske Skogforsøksvesen 22. Ås, Norway: Norwegian Forest and Landscape Institute.
+\references{
+Braastad, H. 1966. Volumtabeller for bjoerk [Volume tables for birch]. Meddelelser fra Det norske Skogforsøksvesen 21: 23–78.
+Brantseg, A. 1967. Furu sønnafjells. Kubering av staaende skog. Funksjoner og tabeller [Volume functions and tables for Scots pine. South Norway]. Meddelelser fra Det norske Skogforsøksvesen 22: 695–739.
+Vestjordet, E. 1967. Funksjoner og tabeller for kubering av staaende gran [Functions and tables for volume of standing trees. Norway spruce]. Meddelelser fra Det norske Skogforsøksvesen 22. Ås, Norway: Norwegian Forest and Landscape Institute.
 }
 
 

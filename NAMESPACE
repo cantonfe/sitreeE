@@ -1,2 +1,2 @@
 exportPattern("^[[:alpha:]]+")
-import(sitree)
+import(sitree, stats)
