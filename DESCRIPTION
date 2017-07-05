@@ -7,7 +7,7 @@ Authors@R: c(person("Clara", "Anton Fernandez", role = c("aut", "cre"),
 Author: Clara Anton Fernandez [aut, cre]
 Maintainer: Clara Anton Fernandez <caf@nibio.no>
 Depends: R (>= 3.1.0), sitree
-Description: sitree package extensions.
+Description: Sitree package extensions.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyLoad: yes
