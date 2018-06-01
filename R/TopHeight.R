@@ -6,9 +6,9 @@ top.height <- function(thickness, height, num.trees.per.ha,
   ## number of trees is per ha
   ## Calculate number of trees per plot
   dt <- data.frame(thickness, height, plot.id, plot.size.m2)
-  dt$num.trees.per.plot <- round(plot.size.m2  * num.trees.per.ha/10000)
+  dt$num.trees.per.plot <- round(dt$plot.size.m2  * num.trees.per.ha/10000)
 
-  dt <- dt[order(plot.id, thickness, decreasing = TRUE),]
+  dt <- dt[order(dt$plot.id, dt$thickness, decreasing = TRUE),]
   top.heights <- by(dt,
                    dt$plot.id,
                    function(x) {

@@ -18,46 +18,60 @@ biomass.Norway <- function(tr, spp, this.period){
   }
 
   if (sum (i.found.this.period ) != 0){
-    biomass.kg <- data.frame(living.branches =
-                               rep(NA, length(i.found.this.period)),
-                             dead.branches = NA,
-                             stem.wood = NA,
-                             stump = NA,
-                             bark = NA,
-                             stump.roots = NA,
-                             roots1 = NA,
-                             roots2 = NA,
-                             foliage = NA)
-    
+    biomass.kg <- data.frame(
+      total.biomass = rep(NA, length(spp)),
+      biomass.aboveground = rep(NA, length(spp)),
+      biomass.belowground  = rep(NA, length(spp))
+    )
+    biomass.kg.components <-
+      data.frame(
+        living.branches = rep(NA, length(spp)),
+        dead.branches = rep(NA, length(spp)),
+        stem.wood = rep(NA, length(spp)),
+        stump.roots = rep(NA, length(spp)),
+        bark = rep(NA, length(spp)),
+        usoil = rep(NA, length(spp)),
+        rot1 = rep(NA, length(spp)),
+        rot2 = rep(NA, length(spp)),
+        foliage = rep(NA, length(spp))
+      )
+      
+    dim(biomass.kg)  
+    names.components <- c("living.branches", "dead.branches",
+                          "stem.wood", "stump.roots",
+                          "bark",
+                          "usoil", "rot1", "rot2", "foliage")
     ## SPRUCE
     if (sum(i.spru)> 0){
       if (class(tr) == "trListDead") {
-        d <- tr$last.measurement[["dbh.mm"]]    [i.found.this.period] [ i.spru]/10
-        H <- tr$last.measurement[["height.dm"]] [i.found.this.period] [ i.spru]/10
+        d <- tr$last.measurement[["dbh.mm"]]    [i.found.this.period & i.spru]/10
+        H <- tr$last.measurement[["height.dm"]] [i.found.this.period & i.spru]/10
       } else {
         d <- tr$data[["dbh.mm"]]   [ i.spru, this.period]/10 ## dbh should be in cm
         H <- tr$data[["height.dm"]][ i.spru, this.period]/10
       }
-
+      
       biom.spruce <- biomass.spruce.M1988(dbh.cm = d, H.m = H)
       ## since these equations produce results different from zero even
       ## when d and H are zero, we should correct it
-      biom.spruce[d == 0,] <- 0
+      biom.spruce[d == 0 | is.na(d),] <- 0
       
-      biomass.kg$total.biomass[i.found.this.period][i.spru] <-
+      biomass.kg$total.biomass[i.found.this.period & i.spru ] <-
         biom.spruce$total.biomass.kg
-      biomass.kg$biomass.above.ground[i.found.this.period][i.spru] <-
+      biomass.kg$biomass.aboveground[i.found.this.period & i.spru] <-
         biom.spruce$biomass.aboveground.kg
-      biomass.kg$biomass.under.ground[i.found.this.period][i.spru] <-
+      biomass.kg$biomass.belowground[i.found.this.period & i.spru] <-
         biom.spruce$biomass.belowground.kg
+      biomass.kg.components[i.found.this.period & i.spru,] <-
+        biom.spruce[, names.components]
     }
 
     
     ## PINE
     if (sum(i.pine) > 0){
       if (class(tr) == "trListDead") {
-        d <- tr$last.measurement[["dbh.mm"]]   [i.found.this.period] [ i.pine]/10
-        H <- tr$last.measurement[["height.dm"]][i.found.this.period] [ i.pine]/10
+        d <- tr$last.measurement[["dbh.mm"]]   [i.found.this.period & i.pine]/10
+        H <- tr$last.measurement[["height.dm"]][i.found.this.period & i.pine]/10
       } else {
         d <- tr$data[["dbh.mm"]]   [ i.pine, this.period]/10
         H <- tr$data[["height.dm"]][ i.pine, this.period]/10
@@ -66,24 +80,25 @@ biomass.Norway <- function(tr, spp, this.period){
      biom.pine <- biomass.pine.M1988(dbh.cm = d, H.m = H)
       ## since these equations produce results different from zero even
       ## when d and H are zero, we should correct it
-      biom.pine[d == 0,] <- 0
+      biom.pine[d == 0| is.na(d),] <- 0
      
-      biomass.kg$total.biomass[i.found.this.period][i.pine] <-
+      biomass.kg$total.biomass[i.found.this.period & i.pine] <-
         biom.pine$total.biomass.kg
-      biomass.kg$biomass.above.ground[i.found.this.period][i.pine] <-
+      biomass.kg$biomass.aboveground[i.found.this.period & i.pine] <-
         biom.pine$biomass.aboveground.kg
 
-      biomass.kg$biomass.under.ground[i.found.this.period][i.pine] <-
+      biomass.kg$biomass.belowground[i.found.this.period & i.pine] <-
         biom.pine$biomass.belowground.kg
-  
+      biomass.kg.components[i.found.this.period & i.pine,] <-
+        biom.pine[, names.components]
     }
 
     
     ## BIRCH
     if (sum(i.birc) > 0){
       if (class(tr) == "trListDead") {
-        d <- tr$last.measurement[["dbh.mm"]]   [i.found.this.period] [ i.birc]/10
-        H <- tr$last.measurement[["height.dm"]][i.found.this.period] [ i.birc]/10
+        d <- tr$last.measurement[["dbh.mm"]]   [i.found.this.period & i.birc]/10
+        H <- tr$last.measurement[["height.dm"]][i.found.this.period & i.birc]/10
       } else {
         d <- tr$data[["dbh.mm"]]   [ i.birc, this.period]/10
         H <- tr$data[["height.dm"]][ i.birc, this.period]/10
@@ -96,21 +111,26 @@ biomass.Norway <- function(tr, spp, this.period){
       biom.birch$stump.roots <-
         biomass.birch.M1988(dbh.cm = d, H.m = H)$stump.roots
       ## Not sure is needed, but just in case
-      biom.birch[d == 0,] <- 0
+      biom.birch[d == 0| is.na(d),] <- 0
 
 
-      biomass.kg$total.biomass[i.found.this.period][i.birc] <-
+      biomass.kg$total.biomass[i.found.this.period & i.birc] <-
         with(biom.birch, biomass.total.kg)
-      biomass.kg$biomass.above.ground[i.found.this.period][i.birc] <- 
+      biomass.kg$biomass.aboveground[i.found.this.period & i.birc] <- 
         with(biom.birch, biomass.aboveground.kg )
-      biomass.kg$biomass.under.ground[i.found.this.period][i.birc] <- 
+      biomass.kg$biomass.belowground[i.found.this.period & i.birc] <- 
         with(biom.birch, biomass.belowground.kg )
+      biomass.kg.components[i.found.this.period & i.birc,] <-
+        biom.birch[, names.components]
     }
     
     names(biomass.kg) <- paste0(names(biomass.kg), ".kg")
-  }
-  return(biomass.kg)
+      }
+    names(biomass.kg.components) <-
+      paste0(names(biomass.kg.components), ".kg")
+  return(list(biomass.kg = biomass.kg, biomass.kg.components = biomass.kg.components))
 }
+##reassignInPackage("biomass.Norway", "sitreeE", biomass.Norway)
 
 biomass.spruce.M1988 <- function(dbh.cm, H.m){
   
@@ -214,10 +234,28 @@ biomass.birch.S2014 <- function(dbh.cm, H.m){
   ## we calculate stump.root from the old functions
   stump.roots <-
     biomass.birch.M1988(dbh.cm , H.m )$stump.roots
+  ## trees were cut at stump height... so we add stump
   biomass.aboveground.kg <- biomass.aboveground.kg.S2014 + stump.roots
   biomass.belowground.kg <- biomass.belowground.kg.S2014 - stump.roots
-  return(data.frame(biomass.total.kg,
+
+  dead.branches  <-  0.0031 * dbh.cm ^1.7879
+  living.branches  <- 0.0276 * dbh.cm ^3.0047 * H.m ^-0.7731
+  foliage  <- 0.0078 * dbh.cm ^2.1953
+  bark <- 0.0137 * dbh.cm^2.3109
+  stem.wood <- 0.0182 * dbh.cm^1.9083 * H.m^1.0394 ## without bark
+  stump.roots <- exp(-3.9657 + 11.0481*(dbh.cm/(dbh.cm+15))) 
+  rot1 <- exp(-3.3045 + 8.1184*(dbh.cm/(dbh.cm+11)) )+
+                0.9783*log(H.m) *0.042/0.52
+  rot2 <- exp(-3.3045 + 8.1184*(dbh.cm/(dbh.cm+11))) +
+                0.9783*log(H.m) *0.042/0.52
+  usoil <- 0.0558 * dbh.cm ^2.2887
+  
+  return(data.frame(biomass.total.kg, 
                     biomass.aboveground.kg.S2014, biomass.belowground.kg.S2014,
                     biomass.belowground.kg,
-                    biomass.aboveground.kg))
+                    biomass.aboveground.kg,
+                    living.branches, dead.branches, stem.wood, stump.roots,
+                    bark,
+                    usoil, rot1, rot2, foliage))
 }
+
