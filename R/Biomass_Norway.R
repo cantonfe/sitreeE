@@ -28,7 +28,7 @@ biomass.Norway <- function(tr, spp, this.period){
         living.branches = rep(NA, length(spp)),
         dead.branches = rep(NA, length(spp)),
         stem.wood = rep(NA, length(spp)),
-        stump.roots = rep(NA, length(spp)),
+        stump = rep(NA, length(spp)),
         bark = rep(NA, length(spp)),
         usoil = rep(NA, length(spp)),
         rot1 = rep(NA, length(spp)),
@@ -37,10 +37,8 @@ biomass.Norway <- function(tr, spp, this.period){
       )
       
     dim(biomass.kg)  
-    names.components <- c("living.branches", "dead.branches",
-                          "stem.wood", "stump.roots",
-                          "bark",
-                          "usoil", "rot1", "rot2", "foliage")
+    names.components <- names(biomass.kg.components)
+    
     ## SPRUCE
     if (sum(i.spru)> 0){
       if (class(tr) == "trListDead") {
@@ -107,9 +105,9 @@ biomass.Norway <- function(tr, spp, this.period){
       biom.birch <- biomass.birch.S2014(dbh.cm = d, H.m = H)
       
       
-      ## we calculate stump.root from the old functions
-      biom.birch$stump.roots <-
-        biomass.birch.M1988(dbh.cm = d, H.m = H)$stump.roots
+      ## we calculate stump from the old functions
+      biom.birch$stump <-
+        biomass.birch.M1988(dbh.cm = d, H.m = H)$stump
       ## Not sure is needed, but just in case
       biom.birch[d == 0| is.na(d),] <- 0
 
@@ -128,7 +126,8 @@ biomass.Norway <- function(tr, spp, this.period){
       }
     names(biomass.kg.components) <-
       paste0(names(biomass.kg.components), ".kg")
-  return(list(biomass.kg = biomass.kg, biomass.kg.components = biomass.kg.components))
+  return(list(biomass.kg = biomass.kg,
+              biomass.kg.components = biomass.kg.components))
 }
 ##reassignInPackage("biomass.Norway", "sitreeE", biomass.Norway)
 
@@ -150,7 +149,7 @@ biomass.spruce.M1988 <- function(dbh.cm, H.m){
   stem.wood  <- exp(-2.3032 +  7.2309*(dbh.cm/(dbh.cm+14)) + 0.0355*H.m  +
                  0.7030*(log(H.m)))
   ## Marklund 1988 G26 s. 54 
-  stump.roots  <- exp(-3.3645 + 10.6686*(dbh.cm/(dbh.cm+17)))
+  stump  <- exp(-3.3645 + 10.6686*(dbh.cm/(dbh.cm+17)))
   ## Marklund 1988 G31 s. 57 
   rot1  <- exp(-2.5706 +  7.6283*(dbh.cm/(dbh.cm+12)))       
   ## Marklund 1988 G28 s. 55 
@@ -163,9 +162,10 @@ biomass.spruce.M1988 <- function(dbh.cm, H.m){
   total.biomass.kg <-
     living.branches + dead.branches + bark + stem.wood + usoil
   biomass.aboveground.kg <- 
-    living.branches + dead.branches + bark + stem.wood + stump.roots
-  biomass.belowground.kg <-  usoil- stump.roots
-  return(data.frame(living.branches, dead.branches, stem.wood, stump.roots,
+    living.branches + dead.branches + bark + stem.wood + stump
+  biomass.belowground.kg <-  usoil- stump
+  
+  return(data.frame(living.branches, dead.branches, stem.wood, stump,
                     bark,
                     usoil, rot1, rot2, foliage, biomass.aboveground.kg,
                     biomass.belowground.kg, total.biomass.kg))
@@ -183,7 +183,7 @@ biomass.pine.M1988 <- function(dbh.cm, H.m){
                   (log(H.m)))
   stem.wood   <- exp(-2.6864 +  7.6066*(dbh.cm/(dbh.cm+14)) + 0.0200 *
                        H.m + 0.8658*(log(H.m)))
-  stump.roots   <- exp(-3.9657 + 11.0481*(dbh.cm/(dbh.cm+15)))
+  stump   <- exp(-3.9657 + 11.0481*(dbh.cm/(dbh.cm+15)))
   rot1   <- exp(-3.8375 +  8.8795*(dbh.cm/(dbh.cm+10)))                
   rot2   <- exp(-6.3413 + 13.2902*(dbh.cm/(dbh.cm+ 9)))
   ## Petterson og Sthål 2006 Root limit 2 mm */
@@ -192,11 +192,11 @@ biomass.pine.M1988 <- function(dbh.cm, H.m){
   total.biomass.kg <-
     living.branches + dead.branches + bark + stem.wood + usoil
   biomass.aboveground.kg <- 
-    living.branches + dead.branches + bark + stem.wood + stump.roots
-  biomass.belowground.kg <-  usoil- stump.roots
+    living.branches + dead.branches + bark + stem.wood + stump
+  biomass.belowground.kg <-  usoil- stump
 
   
-  return(data.frame(living.branches, dead.branches, stem.wood, stump.roots, bark,
+  return(data.frame(living.branches, dead.branches, stem.wood, stump, bark,
                     usoil, rot1, rot2, foliage, biomass.aboveground.kg,
                     biomass.belowground.kg, total.biomass.kg))
 }
@@ -210,7 +210,7 @@ biomass.birch.M1988 <- function(dbh.cm, H.m){
     0.011/0.52 
   bark <- exp(-4.0778 + 8.3019*(dbh.cm/(dbh.cm+14)) + 0.7433*(log(H.m)))
   stem.wood <- exp(-3.3045 + 8.1184*(dbh.cm/(dbh.cm+11)) + 0.9783*(log(H.m)))
-  stump.roots <- exp(-3.9657 + 11.0481*(dbh.cm/(dbh.cm+15))) ##Som pine
+  stump <- exp(-3.9657 + 11.0481*(dbh.cm/(dbh.cm+15))) ##Som pine
   ##BSTEM *0.042/0.52 
   rot1 <- exp(-3.3045 + 8.1184*(dbh.cm/(dbh.cm+11)) + 0.9783*(log(H.m)))*
     0.042/0.52
@@ -220,7 +220,7 @@ biomass.birch.M1988 <- function(dbh.cm, H.m){
   usoil <- (exp(((0.36266)^2) / 2 + 6.1708 + (dbh.cm*10) /
                   ((dbh.cm*10) + 225) * 10.01111))/1000
   
-  return(data.frame(living.branches, dead.branches, stem.wood, stump.roots,
+  return(data.frame(living.branches, dead.branches, stem.wood, stump,
                     bark,
                     usoil, rot1, rot2, foliage))
   }
@@ -232,18 +232,18 @@ biomass.birch.S2014 <- function(dbh.cm, H.m){
     0.0521 * (dbh.cm ^ 2.1372) * (H.m ^0.5570) ##Smith: Total aboveground biomass
   biomass.belowground.kg.S2014 <- 0.0558 * dbh.cm ^ 2.2887 #- Smith: Belowground biomass
   ## we calculate stump.root from the old functions
-  stump.roots <-
-    biomass.birch.M1988(dbh.cm , H.m )$stump.roots
+  stump <-
+    biomass.birch.M1988(dbh.cm , H.m )$stump
   ## trees were cut at stump height... so we add stump
-  biomass.aboveground.kg <- biomass.aboveground.kg.S2014 + stump.roots
-  biomass.belowground.kg <- biomass.belowground.kg.S2014 - stump.roots
+  biomass.aboveground.kg <- biomass.aboveground.kg.S2014 + stump
+  biomass.belowground.kg <- biomass.belowground.kg.S2014 - stump
 
   dead.branches  <-  0.0031 * dbh.cm ^1.7879
   living.branches  <- 0.0276 * dbh.cm ^3.0047 * H.m ^-0.7731
   foliage  <- 0.0078 * dbh.cm ^2.1953
   bark <- 0.0137 * dbh.cm^2.3109
   stem.wood <- 0.0182 * dbh.cm^1.9083 * H.m^1.0394 ## without bark
-  stump.roots <- exp(-3.9657 + 11.0481*(dbh.cm/(dbh.cm+15))) 
+  stump <- exp(-3.9657 + 11.0481*(dbh.cm/(dbh.cm+15))) 
   rot1 <- exp(-3.3045 + 8.1184*(dbh.cm/(dbh.cm+11)) )+
                 0.9783*log(H.m) *0.042/0.52
   rot2 <- exp(-3.3045 + 8.1184*(dbh.cm/(dbh.cm+11))) +
@@ -254,7 +254,7 @@ biomass.birch.S2014 <- function(dbh.cm, H.m){
                     biomass.aboveground.kg.S2014, biomass.belowground.kg.S2014,
                     biomass.belowground.kg,
                     biomass.aboveground.kg,
-                    living.branches, dead.branches, stem.wood, stump.roots,
+                    living.branches, dead.branches, stem.wood, stump,
                     bark,
                     usoil, rot1, rot2, foliage))
 }

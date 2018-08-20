@@ -73,3 +73,5 @@ AM2016ClimateSensitiveSINorway <- function(soilquality,
   return(SI.hist)
   
 }
+##reassignInPackage("AM2016ClimateSensitiveSINorway", "sitreeE",
+##                  AM2016ClimateSensitiveSINorway)
