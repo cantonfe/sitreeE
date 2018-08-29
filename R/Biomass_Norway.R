@@ -40,7 +40,7 @@ biomass.Norway <- function(tr, spp, this.period){
     names.components <- names(biomass.kg.components)
     
     ## SPRUCE
-    if (sum(i.spru)> 0){
+    if (sum(i.spru& i.found.this.period)> 0){
       if (class(tr) == "trListDead") {
         d <- tr$last.measurement[["dbh.mm"]]    [i.found.this.period & i.spru]/10
         H <- tr$last.measurement[["height.dm"]] [i.found.this.period & i.spru]/10
@@ -66,7 +66,7 @@ biomass.Norway <- function(tr, spp, this.period){
 
     
     ## PINE
-    if (sum(i.pine) > 0){
+    if (sum(i.pine& i.found.this.period) > 0){
       if (class(tr) == "trListDead") {
         d <- tr$last.measurement[["dbh.mm"]]   [i.found.this.period & i.pine]/10
         H <- tr$last.measurement[["height.dm"]][i.found.this.period & i.pine]/10
@@ -93,7 +93,7 @@ biomass.Norway <- function(tr, spp, this.period){
 
     
     ## BIRCH
-    if (sum(i.birc) > 0){
+    if (sum(i.birc& i.found.this.period) > 0){
       if (class(tr) == "trListDead") {
         d <- tr$last.measurement[["dbh.mm"]]   [i.found.this.period & i.birc]/10
         H <- tr$last.measurement[["height.dm"]][i.found.this.period & i.birc]/10
@@ -251,7 +251,8 @@ biomass.birch.S2014 <- function(dbh.cm, H.m){
   usoil <- 0.0558 * dbh.cm ^2.2887
   
   return(data.frame(biomass.total.kg, 
-                    biomass.aboveground.kg.S2014, biomass.belowground.kg.S2014,
+                    biomass.aboveground.kg.S2014, 
+                    biomass.belowground.kg.S2014,
                     biomass.belowground.kg,
                     biomass.aboveground.kg,
                     living.branches, dead.branches, stem.wood, stump,
