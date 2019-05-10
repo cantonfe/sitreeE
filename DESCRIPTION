@@ -1,12 +1,12 @@
 Package: sitreeE
-Version: 0.0-2
-Date: 2018-06-01
+Version: 0.0-4
+Date: 2019-05-10
 Title: Sitree Extensions
 Authors@R: c(person("Clara", "Anton Fernandez", role = c("aut", "cre"),
 		     email = "caf@nibio.no"))
 Author: Clara Anton Fernandez [aut, cre]
 Maintainer: Clara Anton Fernandez <caf@nibio.no>
-Depends: R (>= 3.1.0), sitree
+Depends: R (>= 3.1.0), sitree, data.table
 Description: Provides extensions for package 'sitree' for allometric variables, growth, mortality, recruitment, management, tree removal and external modifiers functions.
 License: GPL (>= 2)
 Encoding: UTF-8

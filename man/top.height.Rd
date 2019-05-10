@@ -39,7 +39,4 @@ It returns a data.frame with two columns: top.heights in the same units as heigh
 top.height(thickness = runif(100, 10,40), height = runif(100, 12, 45), 
     num.trees.per.ha = 100, plot.id = 1, plot.size.m2 = 250)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

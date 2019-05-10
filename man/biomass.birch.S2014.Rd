@@ -41,7 +41,4 @@ Clara Anton Fernandez (caf@nibio.no)
 \examples{
 biomass.birch.S2014(dbh.cm = c(10, 20), H.m = c(12, 16))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

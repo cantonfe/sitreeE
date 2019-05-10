@@ -26,7 +26,4 @@ trees. Trees with similar BA are not considered larger.
 \examples{
 PBAL(c(1,2,3,4,4))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
