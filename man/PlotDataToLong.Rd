@@ -25,8 +25,6 @@ It returns a data.table with all vector from pd as columns, and dataframes melte
 \examples{
 result.sitree <- sitree (tree.df   = tr,stand.df  = fl,
 functions = list(fn.growth     ='grow.dbhinc.hgtinc',
-fn.dbh.inc = "dbhi.BN2009",
-fn.hgt.inc =  "height.korf",
 fn.mort       ='mort.B2007',
 fn.recr       ='recr.BBG2008',
 fn.management ='management.prob',
@@ -36,6 +34,8 @@ fn.prep.common.vars ='prep.common.vars.fun'),
 n.periods = 5,
 period.length = 5,mng.options = NA,
 print.comments = FALSE,
+fn.dbh.inc = "dbhi.BN2009",
+fn.hgt.inc =  "height.korf",
 species.spruce = c(1, 2, 3),
 species.pine = c(10, 11, 20, 21, 29),species.harw = c(30, 31),
 fun.final.felling = "harv.prob",fun.thinning      =

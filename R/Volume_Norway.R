@@ -20,7 +20,7 @@ function (...)
   if (length(kom) != length(dbh.mm)) stop('kom should be the same length as dhb.mm')
   if (is.null(vol.reduksjon)) vol.reduksjon <- rep(0, length(dbh.mm))
   if (any (dbh.mm < 50)) stop ('all dbh.mm should be at least 50mm')
-  
+
   ## Find out in which fylke and kommune the stand is
   ## FYLKE
   kom <- as.character(kom, lenght = 4)
@@ -31,7 +31,11 @@ function (...)
   i.fylnr.1   <- fylkene %in% c('11', '12', '14', '15')
   
   ## making sure the species is numeric and not a factor
-  num.species <- as.numeric(levels(tree.sp)[tree.sp])
+  if (is.factor(tree.sp)){
+    num.species <- as.numeric(levels(tree.sp)[tree.sp])
+  } else{
+    num.species <- tree.sp
+  }
   i.tree.sp.1 <- num.species %in% c( 1,  3, 21, 29) ## Picea abies
   i.tree.sp.2 <- num.species %in% c( 2) ## Sitka spruce
   i.tree.sp.3 <- num.species %in% c(10, 11, 20) ## pine
@@ -51,7 +55,7 @@ function (...)
   ##################
   ## WITHOUT BARK
   ###################
-  
+ 
   if (vol.wo){
     
     ## GRAN WEST

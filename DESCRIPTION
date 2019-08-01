@@ -1,6 +1,6 @@
 Package: sitreeE
-Version: 0.0-4
-Date: 2019-05-10
+Version: 0.0-5
+Date: 2019-07-31
 Title: Sitree Extensions
 Authors@R: c(person("Clara", "Anton Fernandez", role = c("aut", "cre"),
 		     email = "caf@nibio.no"))

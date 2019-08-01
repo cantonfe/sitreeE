@@ -8,16 +8,12 @@ Biomass functions for Norway
 Implements the currently used functions to estimate biomass in Norway.
 }
 \usage{
-biomass.Norway(tr, spp, this.period)
+biomass.Norway(tr, this.period)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{tr}{
 A \emph{trList} class object.
-}
-  \item{spp}{
-A vector with the species classification. It can only contain "spruce",
-"pine", "birch" or "other".
 }
   \item{this.period}{
 The period for which to calculate biomass.
@@ -36,7 +32,7 @@ Returns a list
   \item{biomass.kg }{A data.frame with total biomass, biomass
     aboveground, biomass belowground, all in kg }
   \item{biomass.kg.components }{A data.frame with biomass components
-    (see biomass.birch.M1988) in kg}
+    (see \code{\link{biomass.birch.M1988}}) in kg}
 }
 \references{
  Marklund, L. G. 1988. “Biomassafunktioner för tall, gran och björk i Sverige (Biomass functions for pine, spruce and birch in Sweden).” Report 45. Umeå, Sweden: Swedish University of Agricultural Sciences. Department of Forest Survey. 
@@ -55,7 +51,7 @@ Clara Anton Fernandez \email{caf@nibio.no}
 }
 
 \seealso{
-  \code{\link{biomass.birch.S2014}}, \code{\link{biomass.birch.M1988}}
+  \code{\link{biomass.birch.S2014}}, \code{\link{biomass.birch.M1988}}, \code{\link{biomass.pine.M1988}}, \code{\link{biomass.spruce.M1988}}
   
 }
 \examples{
@@ -63,8 +59,6 @@ res <- sitree (tree.df   = tr,
                  stand.df  = fl,
                  functions = list(
                      fn.growth     = 'grow.dbhinc.hgtinc',
-                     fn.dbh.inc = "dbhi.BN2009",
-                     fn.hgt.inc =  "height.korf", 
                      fn.mort       = 'mort.B2007',
                      fn.recr       = 'recr.BBG2008',
                      fn.management = 'management.prob',
@@ -76,6 +70,8 @@ res <- sitree (tree.df   = tr,
                  period.length = 5,
                  mng.options = NA,
                  print.comments = FALSE,
+                 fn.dbh.inc = "dbhi.BN2009",
+                 fn.hgt.inc =  "height.korf", 
                  species.spruce = c(1, 2, 3),
                  species.pine = c(10, 11, 20, 21, 29),
                  species.harw = c(30, 31),
@@ -86,10 +82,6 @@ res <- sitree (tree.df   = tr,
                  per.vol.harv = 0.83
                  )
 biomass.Norway (tr = res$live,
-                spp = sp.classification(res$live$data$tree.sp,
-                                        species.spruce = c(1, 2, 3),
-                                        species.pine = c(10, 11, 20, 21, 29),
-                                        species.harw = c(30, 31)) ,
                 this.period = "t1") 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
